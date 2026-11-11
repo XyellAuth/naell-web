@@ -1,6 +1,6 @@
 (function () {
 
-  const API_URL = `http://${window.location.hostname}:3000/api`;
+  const API_URL = `https://naell.web.id/api`;
 
   function getToken() {
     return localStorage.getItem("naell_token");
