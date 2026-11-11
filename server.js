@@ -8,7 +8,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const JWT_SECRET = "naell-store-secret-change-me-2026";
 
 app.use(cors());
