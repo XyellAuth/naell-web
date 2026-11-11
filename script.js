@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tableBody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #ef4444;">Silakan login terlebih dahulu.</td></tr>';
         return;
       }
-      const res = await fetch(`http://${window.location.hostname}:3000/api/users/login-logs`, {
+      const res = await fetch(`https://naellstore.com/api/users/login-logs`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -377,7 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (newPassword.length < 6) return window.showToast("Kata sandi baru minimal 6 karakter!");
 
       try {
-        const res = await fetch(`http://${window.location.hostname}:3000/api/users/change-password`, {
+        const res = await fetch(`https://naellstore.com/api/users/change-password`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${window.getAuthToken()}` },
           body: JSON.stringify({ currentPassword, newPassword })
@@ -400,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function showNewsPopup() {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/news`);
+      const res = await fetch(`https://naellstore.com/api/news`);
       const data = await res.json();
       if (data.news && data.news.length > 0) {
         const modal = document.getElementById("newsModal");
@@ -482,7 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
         customModal.style.display = "none";
         try {
           const token = localStorage.getItem("naell_token");
-          const res = await fetch(`http://${window.location.hostname}:3000/api/users/pay-with-saldo`, {
+          const res = await fetch(`https://naellstore.com/api/users/pay-with-saldo`, {
             method: "POST",
             headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
             body: JSON.stringify({ amount, product: currentOrder.product, order_code: currentOrder.code })
@@ -540,7 +540,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const token = localStorage.getItem("naell_token");
       if (token) {
-        fetch(`http://${window.location.hostname}:3000/api/orders`, {
+        fetch(`https://naellstore.com/api/orders`, {
           method: "POST",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
           body: JSON.stringify({ order_code: currentOrder.code, product: currentOrder.product, price: currentOrder.price, method: currentOrder.method })
@@ -583,7 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.trackOrderByCode = async function(code) {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/orders/track/${code}`);
+      const res = await fetch(`https://naellstore.com/api/orders/track/${code}`);
       const data = await res.json();
       if (!res.ok) return window.showToast("Pesanan tidak ditemukan. Pastikan kode benar.");
       const modal = document.getElementById("trackResult");
@@ -608,7 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadCategories() {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/categories`);
+      const res = await fetch(`https://naellstore.com/api/categories`);
       const data = await res.json();
       allCategories = data.categories || [];
       if (isAdminPage) {
@@ -662,7 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadStats() {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/stats`);
+      const res = await fetch(`https://naellstore.com/api/stats`);
       const data = await res.json();
       const statUsers = document.getElementById("statUsers");
       const statOrders = document.getElementById("statOrders");
@@ -692,7 +692,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/users/deposit`, {
+      const res = await fetch(`https://naellstore.com/api/users/deposit`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ amount: amount })
@@ -765,7 +765,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadProducts() {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/products`);
+      const res = await fetch(`https://naellstore.com/api/products`);
       const data = await res.json();
       allProducts = data.products || [];
       const accDropdown = document.getElementById("acc-product-id");
@@ -929,7 +929,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (imageFile) formData.append("image", imageFile);
 
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/products/${id}`, {
+      const res = await fetch(`https://naellstore.com/api/products/${id}`, {
         method: "PUT",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` },
         body: formData
@@ -966,7 +966,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadReviews() {
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/reviews`);
+      const res = await fetch(`https://naellstore.com/api/reviews`);
       const data = await res.json();
       if (isAdminPage) renderAdminReviewList(data.reviews || []); else renderUserReviews(data.reviews || []);
     } catch (err) { console.log("Gagal memuat ulasan:", err); }
@@ -1028,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
-      const res = await fetch(`http://${window.location.hostname}:3000/api/reviews`, {
+      const res = await fetch(`https://naellstore.com/api/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": token ? `Bearer ${token}` : "" },
         body: JSON.stringify({ rating, comment })
@@ -1072,7 +1072,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteReview = async function(id) {
     if (!confirm("Hapus ulasan ini?")) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/reviews/${id}`, {
+      const res = await fetch(`https://naellstore.com/api/reviews/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` }
       });
@@ -1090,7 +1090,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const slug = document.getElementById("cat-slug").value.trim().toLowerCase().replace(/\s+/g, '-');
     if (!name || !slug) return window.showToast("Isi semua form!");
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/categories`, {
+      const res = await fetch(`https://naellstore.com/api/categories`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${window.getAuthToken()}` },
         body: JSON.stringify({ name, slug })
@@ -1110,7 +1110,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteCategory = async function(id) {
     if (!confirm("Hapus kategori ini? Produk dengan kategori ini mungkin tidak akan muncul di filter.")) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/categories/${id}`, {
+      const res = await fetch(`https://naellstore.com/api/categories/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` }
       });
@@ -1182,7 +1182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("flash_sale_end", flash_sale_end || "");
 
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/products`, {
+      const res = await fetch(`https://naellstore.com/api/products`, {
         method: "POST",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` },
         body: formData
@@ -1206,7 +1206,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteProduct = async function(id) {
     if (!confirm("Apakah Anda yakin ingin menghapus produk ini?")) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/products/${id}`, {
+      const res = await fetch(`https://naellstore.com/api/products/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` }
       });
@@ -1232,7 +1232,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!msg) return window.showToast("Pesan tidak boleh kosong!");
     try {
       const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
-      const res = await fetch(`http://${window.location.hostname}:3000/api/broadcast`, {
+      const res = await fetch(`https://naellstore.com/api/broadcast`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": token ? `Bearer ${token}` : "" },
         body: JSON.stringify({ message: msg })
@@ -1256,7 +1256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!title || !content) return window.showToast("Judul dan isi tidak boleh kosong!");
     try {
       const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
-      const res = await fetch(`http://${window.location.hostname}:3000/api/news`, {
+      const res = await fetch(`https://naellstore.com/api/news`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": token ? `Bearer ${token}` : "" },
         body: JSON.stringify({ title, content })
@@ -1275,7 +1275,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.deleteNews = async function(id) {
     if (!confirm("Hapus berita ini?")) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/news/${id}`, {
+      const res = await fetch(`https://naellstore.com/api/news/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` }
       });
@@ -1294,7 +1294,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!productId || !rawData) return window.showToast("Pilih produk dan isi data akun.");
     const accounts = rawData.split("\n").filter(line => line.trim() !== "");
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/admin/product-accounts`, {
+      const res = await fetch(`https://naellstore.com/api/admin/product-accounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${window.getAuthToken()}` },
         body: JSON.stringify({ product_id: parseInt(productId), accounts })
@@ -1314,7 +1314,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const productId = document.getElementById("acc-product-id")?.value;
     if (!productId) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/admin/product-accounts/${productId}`, {
+      const res = await fetch(`https://naellstore.com/api/admin/product-accounts/${productId}`, {
         headers: { "Authorization": `Bearer ${window.getAuthToken()}` }
       });
       const data = await res.json();
@@ -1339,7 +1339,7 @@ document.addEventListener("DOMContentLoaded", () => {
         listContainer.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Silakan login terlebih dahulu untuk melihat riwayat pesanan.</div>';
         return;
       }
-      const res = await fetch(`http://${window.location.hostname}:3000/api/orders/history`, {
+      const res = await fetch(`https://naellstore.com/api/orders/history`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -1383,7 +1383,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isAdminPage) return;
     try {
       const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
-      const res = await fetch(`http://${window.location.hostname}:3000/api/orders/all`, {
+      const res = await fetch(`https://naellstore.com/api/orders/all`, {
         headers: { "Authorization": token ? `Bearer ${token}` : "" }
       });
       const data = await res.json();
@@ -1423,7 +1423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       const token = typeof window.getAuthToken === "function" ? window.getAuthToken() : null;
-      const res = await fetch(`http://${window.location.hostname}:3000/api/orders/${id}/status`, {
+      const res = await fetch(`https://naellstore.com/api/orders/${id}/status`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", "Authorization": token ? `Bearer ${token}` : "" },
         body: JSON.stringify({ status: newStatus })
@@ -1475,7 +1475,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function checkBroadcast() {
     if (isAdminPage) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/broadcast`);
+      const res = await fetch(`https://naellstore.com/api/broadcast`);
       const data = await res.json();
       if (data.message) {
         const lastRead = localStorage.getItem("naell_last_broadcast");
@@ -1507,7 +1507,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!message || !currentChatUserId) return;
     const token = localStorage.getItem("naell_token");
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/chat/send`, {
+      const res = await fetch(`https://naellstore.com/api/chat/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ message, target_user_id: currentChatUserId })
@@ -1546,7 +1546,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const body = { message };
       if (currentChatUserId) body.target_user_id = currentChatUserId;
 
-      const res = await fetch(`http://${window.location.hostname}:3000/api/chat/send`, {
+      const res = await fetch(`https://naellstore.com/api/chat/send`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
@@ -1571,7 +1571,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("naell_token");
     if (!token) return;
     try {
-      const res = await fetch(`http://${window.location.hostname}:3000/api/chat/unread-count`, {
+      const res = await fetch(`https://naellstore.com/api/chat/unread-count`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       const data = await res.json();
@@ -1597,7 +1597,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const token = localStorage.getItem("naell_token");
       if (!token) { window.location.href = "index.html"; return; }
       try {
-        const res = await fetch(`http://${window.location.hostname}:3000/api/users/profile-stats`, {
+        const res = await fetch(`https://naellstore.com/api/users/profile-stats`, {
           headers: { "Authorization": `Bearer ${token}` }
         });
         const data = await res.json();
@@ -1632,7 +1632,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.append("avatar", file);
       const token = localStorage.getItem("naell_token");
       try {
-        const res = await fetch(`http://${window.location.hostname}:3000/api/users/upload-avatar`, {
+        const res = await fetch(`https://naellstore.com/api/users/upload-avatar`, {
           method: "POST",
           headers: { "Authorization": `Bearer ${token}` },
           body: formData
@@ -1659,7 +1659,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!confirm("Apakah Anda yakin ingin menghapus foto profil?")) return;
       const token = localStorage.getItem("naell_token");
       try {
-        const res = await fetch(`http://${window.location.hostname}:3000/api/users/delete-avatar`, {
+        const res = await fetch(`https://naellstore.com/api/users/delete-avatar`, {
           method: "DELETE",
           headers: { "Authorization": `Bearer ${token}` }
         });
@@ -1682,7 +1682,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const username = document.getElementById("inputUsername").value;
       const email = document.getElementById("inputEmail").value;
       try {
-        const res = await fetch(`http://${window.location.hostname}:3000/api/users/update-profile`, {
+        const res = await fetch(`https://naellstore.com/api/users/update-profile`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
           body: JSON.stringify({ username, email })
@@ -1708,7 +1708,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isAdmin = window.location.pathname.includes("admin.html");
 
     try {
-      let url = `http://${window.location.hostname}:3000/api/chat/messages`;
+      let url = `https://naellstore.com/api/chat/messages`;
       if (currentChatUserId) url += `?user_id=${currentChatUserId}`;
 
       const res = await fetch(url, { headers: { "Authorization": `Bearer ${token}` } });
