@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d18">
+  <meta name="description" content="Naell Store - Products & Premium Services">
+  <title>Naell Store - Products</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth/auth.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="window.toggleSidebar()"></div>
+
+  <aside class="admin-sidebar" id="adminSidebar" style="z-index: 1000;">
+    <div class="sidebar-brand">
+      <span class="brand-icon">N</span>
+      <h2>Naell Store</h2>
+    </div>
+      
+    <ul class="sidebar-menu">
+      <li>
+        <a href="index.html" class="active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Dasbor
+        </a>
+      </li>
+      <li>
+        <a href="order.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+          Buat Pesanan
+        </a>
+      </li>
+      <li>
+        <a href="riwayat.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          Riwayat Order
+        </a>
+      </li>
+
+      <li>
+        <a href="deposit.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="12" y1="10" x2="12" y2="16"></line><line x1="9" y1="13" x2="15" y2="13"></line></svg>
+          Deposit
+        </a>
+      </li>
+      <li>
+        <a href="riwayat-deposit.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Riwayat Deposit
+        </a>
+      </li>
+
+      <p class="sidebar-label" style="margin-top: 25px;">AKUN</p>
+      <li>
+        <a href="akun.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle><path d="M16 11l2 2 4-4"></path></svg>
+          Pengaturan
+        </a>
+      </li>
+      <li>
+        <a href="riwayat-log.html">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          Riwayat Login
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="https://wa.me/6288291488858" target="_blank" class="btn-kembali" style="width: 100%; text-align: center; justify-content: center; display: flex;">Hubungi Admin</a>
+    </div>
+  </aside>
+
+  <section class="welcome-page" id="welcomePage">
+    <div class="welcome-content">
+      <div class="welcome-logo">N</div>
+      <h1>Seamless Digital,<br><span>Honest Pricing.</span></h1>
+      <p class="welcome-description">
+        Kami menyediakan berbagai produk
+        dan layanan premium dengan harga terjangkau, Nikmati layanan digital dengan garansi.
+      </p>
+      <div class="welcome-rules">
+        <h3>✦ Sistem Pembelian</h3>
+        <div class="welcome-rule"><span>01</span><p>Pastikan produk dan spesifikasi sesuai dengan kebutuhan.</p></div>
+        <div class="welcome-rule"><span>02</span><p>Periksa kembali total pembayaran sebelum checkout.</p></div>
+        <div class="welcome-rule"><span>03</span><p>Lakukan pembayaran melalui metode yang telah disediakan.</p></div>
+        <div class="welcome-rule"><span>04</span><p>Hubungi layanan admin apabila membutuhkan bantuan.</p></div>
+      </div>
+      <button class="welcome-button" onclick="enterStore()">
+        Mulai Belanja <span>→</span>
+      </button>
+      <span class="welcome-footer">NAELL STORE © 2026 · PRODUCTS</span>
+    </div>
+  </section>
+
+  <header class="navbar">
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <button class="menu-toggle" onclick="window.toggleSidebar()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      
+      <a href="#" class="brand">
+        <span class="brand-icon">N</span>
+      </a>
+    </div>
+    
+    <div class="nav-right-group">
+      <div class="navbar-clock" id="navbarClock">
+        <span id="clockTime">00:00:00</span>
+        <span id="clockDate">Memuat...</span>
+      </div>
+      
+      <div class="header-action">
+        <span class="status-dot"></span>
+        <span>Active</span>
+      </div>
+    </div>
+  </header>
+  
+  <div class="track-result" id="trackResult" style="display: none;">
+    <div class="track-card">
+      <button class="track-close" onclick="window.closeTrackResult()">&times;</button>
+      <h3 id="trackProduct">Nama Produk</h3>
+      <p>Status Pesanan: <strong id="trackStatus">Pending</strong></p>
+      <p style="font-size:12px; margin-top:10px; color:#8292af;">Kode: <span id="trackCode">NLS-XXXX</span></p>
+    </div>
+  </div>
+
+  <main id="mainDasbor">
+
+    <div class="hero-title-container" id="globalHeroTitle" style="padding-bottom: 20px; margin-bottom: 0;">
+      <h1 class="hero-title" style="font-size: clamp(36px, 6vw, 56px);">
+        Seamless Digital,<br>
+        <span>Honest Pricing.</span>
+      </h1>
+      <p class="hero-subtitle">Kami menyediakan berbagai produk dan layanan premium dengan harga terjangkau, Nikmati layanan digital dengan Otomatis, cepat, dan bergaransi.</p>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3 id="statUsers">0</h3>
+        <p>Total Pengguna</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statOrders">0</h3>
+        <p>Pesanan Dikerjakan</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="statProducts">0</h3>
+        <p>Layanan Tersedia</p>
+      </div>
+    </div>
+
+    <div class="search-wrapper-card">
+      <div class="search-group">
+        <svg class="search-icon-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8292af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="Cari layanan (cth: Canva)..." autocomplete="off" onfocus="window.location.href='order.html'">
+      </div>
+
+      <div class="track-group">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8292af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <input type="text" id="trackInput" placeholder="Cek ID Invoice..." autocomplete="off">
+        <button onclick="window.trackOrder()" class="btn-track">Cek &rarr;</button>
+      </div>
+    </div>
+
+    <div id="mainContent" class="hide-catalog"></div>
+
+    <div id="lockedContent" class="locked-minimal" style="display: none;">
+      <div class="lock-container">
+        <div class="lock-svg-wrapper">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#80b5ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h2 class="lock-title">Member Area</h2>
+        <p class="lock-desc">Silakan masuk ke akun Anda untuk melanjutkan.</p>
+        <button class="lock-btn" onclick="window.openAuthModal()">Masuk/Daftar</button>
+      </div>
+    </div>
+
+    <div class="floating-review" id="floatingReview" style="display: none;">
+      <div class="fr-avatar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="fr-dot"></span>
+      </div>
+      <div class="fr-content">
+        <div class="fr-header">
+          <span class="fr-name" id="frName">6285XXXX76</span>
+          <span class="fr-dot-sep">•</span>
+          <span class="fr-time" id="frTime">Baru saja</span>
+        </div>
+        <div class="fr-text" id="frText">
+          Membeli <strong id="frProduct">Produk Premium</strong>
+        </div>
+      </div>
+      <button class="fr-close" onclick="document.getElementById('floatingReview').style.display='none'">&times;</button>
+    </div>
+
+    <section class="why-us-section">
+      <h2 class="why-us-title">Kenapa Harus <span>Naell Store?</span></h2>
+      
+      <div class="why-us-grid">
+        <div class="why-us-card">
+          <div class="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+          </div>
+          <h3>Layanan Terlengkap</h3>
+          <p>Naell Store menyediakan berbagai macam produk digital premium untuk kebutuhan Anda.</p>
+        </div>
+
+        <div class="why-us-card">
+          <div class="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+          </div>
+          <h3>Harga Termurah</h3>
+          <p>Kami berkomitmen memberikan harga terbaik dan termurah untuk semua kalangan.</p>
+        </div>
+
+        <div class="why-us-card">
+          <div class="why-us-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </div>
+          <h3>Pelayanan Terbaik</h3>
+          <p>Kepuasan pelanggan adalah prioritas utama kami. Proses cepat dan bergaransi.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <div class="faq-header">
+        <span class="faq-badge">BANTUAN</span>
+        <h2 class="faq-title">Ada Yang Bisa Kami Bantu?</h2>
+        <p class="faq-subtitle">Temukan jawaban cepat untuk pertanyaan yang paling sering diajukan seputar layanan Naell Store.</p>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="window.toggleFaq(this)">
+            <span>Apa Itu Naell Store?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Naell Store adalah platform digital yang menyediakan berbagai produk premium seperti akun streaming, tools desain, dan layanan digital lainnya dengan harga terjangkau.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="window.toggleFaq(this)">
+            <span>Layanan Apa Saja Yang Tersedia?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Kami menyediakan berbagai layanan seperti Canva Pro, Netflix Premium, Spotify, ChatGPT, CapCut Pro, Alight Motion, dan masih banyak lagi.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="window.toggleFaq(this)">
+            <span>Bagaimana Cara Mendaftar & Membeli?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Anda cukup mendaftar akun terlebih dahulu di tombol "Masuk / Daftar", lalu pilih produk yang diinginkan, dan selesaikan pembayaran melalui WhatsApp admin.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="window.toggleFaq(this)">
+            <span>Apakah Produk Bergaransi?</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="faq-answer">
+            <p>Tentu! Semua produk yang kami jual memiliki garansi sesuai ketentuan. Jika ada kendala, Anda bisa langsung menghubungi admin.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews-section" id="reviewsSection" style="display: none;">
+      <h2 class="reviews-title">Ulasan Pelanggan</h2>
+      
+      <div class="review-form-container" id="reviewFormContainer" style="display: none;">
+        <h3>Berikan Ulasan Anda</h3>
+        <div class="rating-stars" id="ratingStars">
+          <span data-val="1">★</span>
+          <span data-val="2">★</span>
+          <span data-val="3">★</span>
+          <span data-val="4">★</span>
+          <span data-val="5">★</span>
+        </div>
+        <textarea id="reviewComment" class="admin-input" rows="3" placeholder="Bagaimana pengalaman belanja Anda?"></textarea>
+        <button onclick="window.submitReview()" class="admin-btn-save" style="margin-top: 10px;">Kirim Ulasan</button>
+      </div>
+
+      <div class="reviews-grid" id="reviewsGrid"></div>
+    </section>
+
+    <footer>
+      <span class="footer-brand">Naell Store</span>
+      <span class="footer-divider">•</span>
+      <span class="footer-description">Products & Premium Services © 2026</span>
+    </footer>
+
+  </main>
+
+  <div class="cart-modal" id="cartModal">
+    <div class="cart-box">
+      <div class="cart-header">
+        <h3>🛒 Keranjang Saya</h3>
+        <button class="cart-close" onclick="document.getElementById('cartModal').classList.remove('show')">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItemsContainer"></div>
+      <button class="cart-checkout-btn" onclick="window.checkoutCart()">Checkout Semua</button>
+    </div>
+  </div>
+
+  <div class="product-modal" id="productModal">
+    <div class="pm-backdrop" onclick="document.getElementById('productModal').classList.remove('show')"></div>
+    <div class="pm-content">
+      <button class="pm-close" onclick="document.getElementById('productModal').classList.remove('show')">&times;</button>
+      
+      <div class="pm-header">
+        <div class="pm-icon-wrapper">
+          <div class="pm-icon" id="pmIcon"><img src="" alt=""></div>
+          <div class="live-viewers-badge" id="liveViewers">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <span id="liveCountText">4</span>
+          </div>
+        </div>
+        <h2 id="pmTitle">Nama Produk</h2>
+        <span class="pm-badge" id="pmBadge">PREMIUM</span>
+        <p class="pm-desc" id="pmDesc">Deskripsi produk...</p>
+        <div class="pm-actions">
+          <button class="pm-btn-share" onclick="window.shareProduct()">Share</button>
+          <button class="pm-btn-cart" onclick="window.addCurrentProductToCart()" style="background: #17233c; color: #c8d4eb; border: 1px solid #344b75; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; flex: 1; gap: 6px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          +
+          </button>
+          <button class="pm-btn-buy" onclick="window.proceedToBuy()">Beli</button>
+        </div>
+      </div>
+      
+      <div class="pm-divider"><span>PILIH PAKET</span></div>
+      
+      <div class="pm-packages" id="pmPackages">
+      </div>
+    </div>
+  </div>
+
+  <div class="payment-modal" id="paymentModal" aria-hidden="true">
+    <div class="payment-backdrop" onclick="closePaymentModal()"></div>
+
+    <section class="payment-dialog">
+      <button class="payment-close" onclick="closePaymentModal()">&times;</button>
+
+      <div class="payment-heading">
+        <span class="payment-kicker">NAELL STORE CHECKOUT</span>
+        <h2>Silahkan Pilih Metode Pembayaran</h2>
+        <p>Pastikan produk dan nominal pesanan sudah benar.</p>
+      </div>
+
+      <div class="checkout-product">
+        <div>
+          <span class="checkout-label">Produk</span>
+          <strong id="checkoutProduct">-</strong>
+        </div>
+        <strong class="checkout-price" id="checkoutPrice">Rp0</strong>
+      </div>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="QRIS">
+          <span class="payment-logo qris-logo">
+            <img src="images/qris.png" alt="QRIS" class="qris-image">
+          </span>
+          <span class="payment-option-name">QRIS</span>
+          <span class="payment-check"></span>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="Saldo">
+          <span class="payment-logo" style="background: #1d3152; color: #ffe36a; font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: 12px;">
+            Rp
+          </span>
+          <span class="payment-option-name">Saldo Akun</span>
+          <span class="payment-check"></span>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="DANA">
+          <span class="payment-logo dana-logo">
+            <img src="images/dana.png" alt="DANA" class="payment-image">
+          </span>
+          <span class="payment-option-name">DANA</span>
+          <span class="payment-check"></span>
+        </label>
+      </div>
+      
+      <div class="checkout-confirm" id="checkoutConfirm" hidden>
+        <div class="confirm-title">Konfirmasi Pesanan</div>
+        <p>Produk: <strong id="confirmProduct">-</strong></p>
+        <p>Metode: <strong id="confirmMethod">-</strong></p>
+        <p class="confirm-note">Detail pesanan akan dikirim ke WhatsApp admin.</p>
+      </div>
+
+      <button class="payment-primary" id="paymentContinue" onclick="continueCheckout()" disabled>Lanjutkan</button>
+
+      <button class="payment-secondary" id="paymentConfirm" onclick="confirmCheckout()" hidden>Konfirmasi Pesanan</button>
+    </section>
+  </div>
+
+  <a href="https://wa.me/6288291488858?text=Halo%20Admin%20Naell%20Store,%20saya%20ingin%20bertanya." class="floating-wa" target="_blank" rel="noopener noreferrer" aria-label="Hubungi Admin via WhatsApp">
+    <svg viewBox="0 0 32 32" width="35" height="35" fill="currentColor">
+      <path d="M16.03 4.01c-6.61 0-12 5.39-12 12 0 2.12.55 4.19 1.6 6.01L4 28l6.11-1.6c1.76.96 3.76 1.47 5.92 1.47 6.61 0 12-5.39 12-12s-5.39-12-12-12zm0 21.82c-1.94 0-3.84-.52-5.5-1.51l-.39-.23-4.08 1.07 1.09-3.98-.25-.4a9.88 9.88 0 0 1-1.53-5.28c0-5.45 4.44-9.89 9.89-9.89s9.89 4.44 9.89 9.89-4.44 9.89-9.89 9.89zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.21 5.1 4.5.71.31 1.27.49 1.7.63.72.23 1.37.2 1.89.12.58-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.13-.27-.2-.57-.35z"></path>
+    </svg>
+  </a>
+
+  <div class="broadcast-modal" id="broadcastModal">
+    <div class="broadcast-box">
+      <div class="broadcast-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+      </div>
+      <h3 class="broadcast-title">Notification</h3>
+      <div class="broadcast-divider"></div>
+      <p class="broadcast-text" id="broadcastText"></p>
+      <button class="broadcast-close" onclick="document.getElementById('broadcastModal').classList.remove('show')">
+        Mengerti
+      </button>
+    </div>
+  </div>
+
+  <div class="news-modal" id="newsModal">
+    <div class="news-box">
+      <div class="news-header-top">
+        <h2 class="news-main-title">📰 News</h2>
+        <button class="news-close-x" onclick="document.getElementById('newsModal').classList.remove('show')">&times;</button>
+      </div>
+      
+      <div class="news-list" id="newsListContainer">
+      </div>
+      
+      <button class="news-close-btn" onclick="document.getElementById('newsModal').classList.remove('show')">
+        ✓ Saya Sudah Membaca
+      </button>
+    </div>
+  </div>
+
+  <div class="payment-modal" id="successModal" style="display: none;">
+    <div class="payment-backdrop"></div>
+    <div class="payment-dialog" style="text-align: center;">
+      <div style="font-size: 50px; margin-bottom: 15px;">🎉</div>
+      <h2 style="color: white; margin-bottom: 10px;">Sukses Membeli!</h2>
+      <p style="color: #8292af; font-size: 13px; margin-bottom: 20px;">Kode Pesanan: <strong id="successOrderCode">NLS-XXX</strong></p>
+      
+      <div id="successAccountBox" style="display: none; background: rgba(52, 211, 153, 0.1); border: 1px solid #34d399; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left;">
+        <p style="color: #34d399; font-size: 11px; font-weight: 800; margin-bottom: 5px;">DETAIL AKUN ANDA:</p>
+        <pre id="successAccountData" style="color: white; font-size: 13px; white-space: pre-wrap; font-family: monospace;"></pre>
+      </div>
+
+      <button onclick="closeSuccessModal(); window.location.href='riwayat.html';" class="payment-primary">Lihat Riwayat Pesanan</button>
+    </div>
+  </div>
+
+  <div id="insufficientSaldoModal" style="display: none; position: fixed; inset: 0; z-index: 3100; background: rgba(8,13,24,0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: linear-gradient(145deg, #1b2944, #101a2d); border: 1px solid #3b527a; border-radius: 20px; padding: 30px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+      <div style="width: 60px; height: 60px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <h3 style="color: white; font-size: 20px; font-weight: 800; margin-bottom: 10px;">Saldo Tidak Mencukupi</h3>
+      <p style="color: #8292af; font-size: 14px; margin-bottom: 25px; line-height: 1.6;">Maaf, saldo Anda saat ini tidak cukup untuk melakukan pembayaran ini. Silakan lakukan deposit terlebih dahulu.</p>
+      <button onclick="document.getElementById('insufficientSaldoModal').style.display='none'; window.location.href='deposit.html';" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #80b5ff, #6483f5); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(96, 148, 255, 0.3);">Ke Halaman Deposit</button>
+      <button onclick="document.getElementById('insufficientSaldoModal').style.display='none'" style="width: 100%; padding: 14px; background: transparent; color: #8292af; border: none; font-size: 13px; font-weight: 700; cursor: pointer; margin-top: 10px;">Tutup</button>
+    </div>
+  </div>
+
+  <div id="customConfirmModal" style="display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(8,13,24,0.85); backdrop-filter: blur(5px); align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: linear-gradient(145deg, #1b2944, #101a2d); border: 1px solid #3b527a; border-radius: 20px; padding: 30px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);">
+      <div style="width: 60px; height: 60px; background: rgba(255, 227, 106, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ffe36a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+      </div>
+      <h3 style="color: white; font-size: 20px; font-weight: 800; margin-bottom: 10px;">Konfirmasi Pembayaran</h3>
+      <p style="color: #8292af; font-size: 14px; margin-bottom: 25px; line-height: 1.6;">Apakah Anda yakin ingin melanjutkan pembayaran menggunakan Saldo Akun?</p>
+      <div style="background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 12px; padding: 15px; margin-bottom: 25px;">
+        <span style="display: block; color: #8292af; font-size: 11px; text-transform: uppercase; font-weight: 800; margin-bottom: 5px;">Total Tagihan</span>
+        <span id="customConfirmAmount" style="color: #ffe36a; font-size: 24px; font-weight: 800;">Rp 0</span>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="document.getElementById('customConfirmModal').style.display='none'" style="flex: 1; padding: 14px; background: #17233c; color: #c8d4eb; border: 1px solid #344b75; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer;">Batal</button>
+        <button id="customConfirmBtn" style="flex: 1; padding: 14px; background: linear-gradient(135deg, #34d399, #059669); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 15px rgba(52, 211, 153, 0.3);">Ya, Bayar</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="floatingChatBtn" onclick="window.toggleChatWidget()" style="position: fixed; bottom: 90px; right: 25px; width: 55px; height: 55px; background: linear-gradient(135deg, #80b5ff, #6483f5); color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(96, 148, 255, 0.4); z-index: 999; cursor: pointer; transition: all 0.3s ease;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    <span id="chatUnreadBadge" style="display: none; position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; font-size: 10px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #080d18;">0</span>
+  </button>
+
+  <div id="chatWidget" style="display: none; position: fixed; bottom: 160px; right: 25px; width: 340px; height: 450px; background: linear-gradient(145deg, #1b2944, #101a2d); border: 1px solid #3b527a; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); z-index: 3000; flex-direction: column; overflow: hidden;">
+    <div style="background: #0f1a2c; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2c3b57;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div style="width: 35px; height: 35px; background: linear-gradient(135deg, #80b5ff, #6483f5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px;">N</div>
+        <div>
+          <h4 style="color: white; font-size: 14px; margin: 0;">Admin Naell Store</h4>
+          <span style="color: #34d399; font-size: 10px;">● Online</span>
+        </div>
+      </div>
+      <button onclick="window.toggleChatWidget()" style="background: none; border: none; color: #8292af; font-size: 20px; cursor: pointer;">&times;</button>
+    </div>
+
+    <div id="chatMessages" style="flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;"></div>
+
+    <div style="padding: 10px; background: #0f1a2c; border-top: 1px solid #2c3b57; display: flex; gap: 8px;">
+      <input type="text" id="chatInput" placeholder="Ketik pesan..." style="flex: 1; background: #15223a; border: 1px solid #344b75; border-radius: 8px; padding: 10px; color: white; font-size: 13px; outline: none;" onkeypress="if(event.key === 'Enter') window.sendChatMessage()">
+      <button onclick="window.sendChatMessage()" style="background: linear-gradient(135deg, #80b5ff, #6483f5); border: none; border-radius: 8px; padding: 10px 15px; color: white; font-weight: 800; cursor: pointer;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="auth/auth.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
