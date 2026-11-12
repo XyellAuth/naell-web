@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Gagal memuat catatan:", err);
     }
   };
-  
+
   window.saveNote = async function() {
     const title = document.getElementById("note-title").value.trim();
     const content = document.getElementById("note-content").value.trim();
@@ -1915,6 +1915,116 @@ document.addEventListener("DOMContentLoaded", () => {
   window.confirmCheckout    = confirmCheckout;
   window.closePaymentModal  = closePaymentModal;
   window.closeSuccessModal  = closeSuccessModal;
+
+  if (window.location.pathname.includes("catatan.html")) {
+    window.loadNotes = async function() {
+      const container = document.getElementById("notesListContainer");
+      if (!container) return;
+
+      try {
+        const token = localStorage.getItem("naell_token");
+        const res = await fetch(`https://naell.web.id/api/notes`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        const data = await res.json();
+
+        container.innerHTML = "";
+        if (!data.notes || data.notes.length === 0) {
+          container.innerHTML = '<p style="color: #8292af; text-align: center;">Belum ada catatan.</p>';
+          return;
+        }
+
+        data.notes.forEach(note => {
+          const div = document.createElement("div");
+          div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; padding: 15px;";
+
+          const header = document.createElement("div");
+          header.style.cssText = "display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;";
+          header.innerHTML = `
+            <h4 style="color: #ffe36a; margin: 0; font-size: 15px; flex: 1; padding-right: 10px; word-break: break-word;">${note.title}</h4>
+            <span class="note-toggle-icon" style="color: #8292af; font-size: 20px; line-height: 1;">+</span>
+          `;
+
+          const body = document.createElement("div");
+          body.style.cssText = "max-height: 0; overflow: hidden; transition: max-height 0.3s ease;";
+          body.innerHTML = `
+            <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-top: 15px; line-height: 1.6; border-top: 1px solid #2c3b57; padding-top: 15px;">${note.content}</div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+              <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
+            </div>
+          `;
+
+          header.addEventListener("click", () => {
+            const icon = header.querySelector(".note-toggle-icon");
+            if (body.style.maxHeight === "0px" || body.style.maxHeight === "") {
+              body.style.maxHeight = body.scrollHeight + "px";
+              icon.textContent = "−";
+            } else {
+              body.style.maxHeight = "0px";
+              icon.textContent = "+";
+            }
+          });
+
+          div.appendChild(header);
+          div.appendChild(body);
+          container.appendChild(div);
+        });
+      } catch (err) {
+        console.error("Gagal memuat catatan:", err);
+      }
+    };
+
+    window.saveNote = async function() {
+      const title = document.getElementById("note-title").value.trim();
+      const content = document.getElementById("note-content").value.trim();
+      if (!title || !content) return window.showToast("Judul dan isi wajib diisi!", "error");
+
+      const token = localStorage.getItem("naell_token");
+      try {
+        const res = await fetch(`https://naell.web.id/api/notes`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+          body: JSON.stringify({ title, content })
+        });
+        if (res.ok) {
+          window.showToast("Catatan disimpan!", "success");
+          document.getElementById("note-title").value = "";
+          document.getElementById("note-content").value = "";
+          window.loadNotes();
+        } else {
+          window.showToast("Gagal menyimpan catatan.", "error");
+        }
+      } catch (err) {
+        window.showToast("Terjadi kesalahan server.", "error");
+      }
+    };
+
+    window.editNote = function(id, title, content) {
+      document.getElementById("note-title").value = title;
+      document.getElementById("note-content").value = content;
+      document.getElementById("note-title").focus();
+    };
+
+    window.deleteNote = async function(id) {
+      if (!confirm("Hapus catatan ini?")) return;
+      const token = localStorage.getItem("naell_token");
+      try {
+        const res = await fetch(`https://naell.web.id/api/notes/${id}`, {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (res.ok) {
+          window.showToast("Catatan dihapus!", "success");
+          window.loadNotes();
+        }
+      } catch (err) {
+        window.showToast("Terjadi kesalahan server.", "error");
+      }
+    };
+
+    window.loadNotes();
+  }
 
   if (isAdminPage) {
     setTimeout(() => {
