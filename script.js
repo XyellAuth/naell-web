@@ -378,7 +378,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const stockText = p.stock > 0 ? `Sisa Stok: ${p.stock}` : 'Stok Habis';
       const stockColor = p.stock > 0 ? '#34d399' : '#ef4444';
       const now = new Date().getTime();
-      const flashEnd = p.flash_sale_end ? new Date(p.flash_sale_end).getTime() : 0;
+      
+      let flashEnd = 0;
+      if (p.flash_sale_end) {
+        const dateStr = p.flash_sale_end.toString().replace("T", " ");
+        flashEnd = new Date(dateStr).getTime();
+        if (isNaN(flashEnd)) flashEnd = 0;
+      }
+      
       let displayPrice = `Rp${p.price.toLocaleString('id-ID')}`;
       
       if (p.flash_sale_price > 0 && flashEnd > now) {
@@ -412,7 +419,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.updateSaldoCheckoutText();
     currentOrder.product = p.name;
     const now = new Date().getTime();
-    const flashEnd = p.flash_sale_end ? new Date(p.flash_sale_end).getTime() : 0;
+    
+    let flashEnd = 0;
+    if (p.flash_sale_end) {
+      const dateStr = p.flash_sale_end.toString().replace("T", " ");
+      flashEnd = new Date(dateStr).getTime();
+      if (isNaN(flashEnd)) flashEnd = 0;
+    }
+    
     let finalPrice = p.price;
     if (p.flash_sale_price > 0 && flashEnd > now) finalPrice = p.flash_sale_price;
     currentOrder.price = `Rp${finalPrice.toLocaleString('id-ID')}`;
@@ -438,7 +452,7 @@ document.addEventListener("DOMContentLoaded", () => {
       parent.style.display = allowedMethods.includes(input.value) ? "flex" : "none";
     });
   };
-  
+    
   window.proceedToBuy = function() {
     document.getElementById("productModal").classList.remove("show");
     window.buyProductFromDetail(activeProductForCheckout);
@@ -943,7 +957,12 @@ document.addEventListener("DOMContentLoaded", () => {
       let priceHtml = `<span style="color: #ffe36a; font-weight: 800; font-size: 14px;">Rp${firstProduct.price.toLocaleString('id-ID')}</span>`;
       let timerHtml = "";
       const now = new Date().getTime();
-      const flashEnd = firstProduct.flash_sale_end ? new Date(firstProduct.flash_sale_end).getTime() : 0;
+      let flashEnd = 0;
+      if (firstProduct.flash_sale_end) {
+        let dateStr = firstProduct.flash_sale_end.toString().replace("T", " ");
+        flashEnd = new Date(dateStr).getTime();
+        if (isNaN(flashEnd)) flashEnd = 0;
+      }
 
       if (firstProduct.flash_sale_price > 0 && flashEnd > now) {
         priceHtml = `
