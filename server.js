@@ -503,11 +503,13 @@ app.get("/api/users/deposit-history", verifyToken, async (req, res) => {
   }
 });
 
-app.get("/api/news", (req, res) => {
-  db.all("SELECT * FROM news ORDER BY id DESC", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get("/api/news", async (req, res) => {
+  try {
+    const rows = await dbAll("SELECT * FROM news ORDER BY id DESC");
     res.json({ news: rows });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil berita." });
+  }
 });
 
 app.post("/api/news", verifyToken, (req, res) => {
@@ -617,29 +619,29 @@ app.get("/api/orders/history", verifyToken, async (req, res) => {
   }
 });
 
-app.get("/api/orders/track/:code", (req, res) => {
-  db.get(
-    "SELECT * FROM orders WHERE order_code = ?",
-    [req.params.code],
-    (err, row) => {
-      if (err) return res.status(500).json({ error: err.message });
-      if (!row) return res.status(404).json({ error: "Pesanan tidak ditemukan." });
-      res.json({ order: row });
-    }
-  );
+app.get("/api/orders/track/:code", async (req, res) => {
+  try {
+    const row = await dbGet("SELECT * FROM orders WHERE order_code = ?", [req.params.code]);
+    if (!row) return res.status(404).json({ error: "Pesanan tidak ditemukan." });
+    res.json({ order: row });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal melacak pesanan." });
+  }
 });
 
-app.get("/api/orders/all", verifyToken, (req, res) => {
+app.get("/api/orders/all", verifyToken, async (req, res) => {
   if (req.user.role !== "admin") return res.status(403).json({ error: "Akses ditolak." });
-  db.all(`
-    SELECT orders.*, users.username 
-    FROM orders 
-    LEFT JOIN users ON orders.user_id = users.id 
-    ORDER BY orders.id DESC
-  `, [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+  try {
+    const rows = await dbAll(`
+      SELECT orders.*, users.username 
+      FROM orders 
+      LEFT JOIN users ON orders.user_id = users.id 
+      ORDER BY orders.id DESC
+    `);
     res.json({ orders: rows });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil pesanan." });
+  }
 });
 
 app.put("/api/orders/:id/status", verifyToken, (req, res) => {
@@ -743,11 +745,13 @@ app.get("/api/chat/unread-count", verifyToken, async (req, res) => {
   }
 });
 
-app.get("/api/broadcast", (req, res) => {
-  db.get("SELECT message FROM broadcasts ORDER BY id DESC LIMIT 1", [], (err, row) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get("/api/broadcast", async (req, res) => {
+  try {
+    const row = await dbGet("SELECT message FROM broadcasts ORDER BY id DESC LIMIT 1");
     res.json({ message: row ? row.message : null });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil broadcast." });
+  }
 });
 
 app.post("/api/broadcast", verifyToken, (req, res) => {
@@ -762,11 +766,13 @@ app.post("/api/broadcast", verifyToken, (req, res) => {
   });
 });
 
-app.get("/api/products", (req, res) => {
-  db.all("SELECT * FROM products ORDER BY id ASC", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get("/api/products", async (req, res) => {
+  try {
+    const rows = await dbAll("SELECT * FROM products ORDER BY id ASC");
     res.json({ products: rows });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil produk." });
+  }
 });
 
 app.post("/api/products", verifyToken, upload.single("image"), (req, res) => {
@@ -833,11 +839,13 @@ app.get("/api/stats", async (req, res) => {
   }
 });
 
-app.get("/api/categories", (req, res) => {
-  db.all("SELECT * FROM categories ORDER BY id ASC", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get("/api/categories", async (req, res) => {
+  try {
+    const rows = await dbAll("SELECT * FROM categories ORDER BY id ASC");
     res.json({ categories: rows });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil kategori." });
+  }
 });
 
 app.post("/api/categories", verifyToken, (req, res) => {
@@ -860,11 +868,13 @@ app.delete("/api/categories/:id", verifyToken, (req, res) => {
   });
 });
 
-app.get("/api/reviews", (req, res) => {
-  db.all("SELECT * FROM reviews ORDER BY id DESC LIMIT 10", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+app.get("/api/reviews", async (req, res) => {
+  try {
+    const rows = await dbAll("SELECT * FROM reviews ORDER BY id DESC LIMIT 10");
     res.json({ reviews: rows });
-  });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil ulasan." });
+  }
 });
 
 app.post("/api/reviews", verifyToken, async (req, res) => {
