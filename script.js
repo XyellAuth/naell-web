@@ -37,10 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
         header.onmouseout = () => header.style.background = "transparent";
         
         header.innerHTML = `
-          <h4 style="color: #ffe36a; margin: 0; font-size: 15px; flex: 1; padding-right: 10px; word-break: break-word;">${note.title}</h4>
-          <svg class="note-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8292af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease; flex-shrink: 0;">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+          <div style="flex: 1; padding-right: 10px;">
+            <h4 style="color: #ffe36a; margin: 0; font-size: 15px; word-break: break-word;">${note.title}</h4>
+            <span style="font-size: 10px; color: ${note.is_public ? '#34d399' : '#8292af'};">
+              ${note.is_public ? '🌍 Publik' : '🔒 Pribadi'}
+            </span>
+          </div>
+          <span class="note-toggle-icon" style="color: #8292af; font-size: 20px; line-height: 1;">+</span>
         `;
 
         const body = document.createElement("div");
@@ -1968,10 +1971,13 @@ document.addEventListener("DOMContentLoaded", () => {
           body.style.cssText = "max-height: 0; overflow: hidden; transition: max-height 0.3s ease;";
           body.innerHTML = `
             <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-top: 15px; line-height: 1.6; border-top: 1px solid #2c3b57; padding-top: 15px;">${note.content}</div>
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-              <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
-              <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
-            </div>
+            ${note.user_id === JSON.parse(localStorage.getItem("naell_user")).id 
+              ? `<div style="display: flex; gap: 10px; margin-top: 15px;">
+                  <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+                  <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
+                </div>` 
+              : ''
+            }
           `;
 
           header.addEventListener("click", () => {
@@ -1995,17 +2001,18 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.saveNote = async function() {
-      const title = document.getElementById("note-title").value.trim();
-      const content = document.getElementById("note-content").value.trim();
-      if (!title || !content) return window.showToast("Judul dan isi wajib diisi!", "error");
+    const title = document.getElementById("note-title").value.trim();
+    const content = document.getElementById("note-content").value.trim();
+    const isPublic = document.getElementById("note-is-public").checked;
+    if (!title || !content) return window.showToast("Judul dan isi wajib diisi!", "error");
 
-      const token = localStorage.getItem("naell_token");
-      try {
-        const res = await fetch(`https://naell.web.id/api/notes`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-          body: JSON.stringify({ title, content })
-        });
+    const token = localStorage.getItem("naell_token");
+    try {
+      const res = await fetch(`https://naell.web.id/api/notes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ title, content, is_public: isPublic })
+      });
         if (res.ok) {
           window.showToast("Catatan disimpan!", "success");
           document.getElementById("note-title").value = "";

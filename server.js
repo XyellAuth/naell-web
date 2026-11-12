@@ -972,7 +972,10 @@ app.get("/api/admin/product-accounts/:productId", verifyToken, async (req, res) 
 
 app.get("/api/notes", verifyToken, async (req, res) => {
   try {
-    const notes = await dbAll("SELECT * FROM notes WHERE user_id = ? ORDER BY created_at DESC", [req.user.id]);
+    const notes = await dbAll(
+      "SELECT * FROM notes WHERE user_id = ? OR is_public = 1 ORDER BY created_at DESC",
+      [req.user.id]
+    );
     res.json({ notes });
   } catch (err) {
     res.status(500).json({ error: "Gagal mengambil catatan." });
@@ -981,10 +984,13 @@ app.get("/api/notes", verifyToken, async (req, res) => {
 
 app.post("/api/notes", verifyToken, async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, is_public } = req.body;
     if (!title || !content) return res.status(400).json({ error: "Judul dan isi wajib diisi." });
 
-    await dbRun("INSERT INTO notes (user_id, title, content) VALUES (?, ?, ?)", [req.user.id, title, content]);
+    await dbRun(
+      "INSERT INTO notes (user_id, title, content, is_public) VALUES (?, ?, ?, ?)",
+      [req.user.id, title, content, is_public ? 1 : 0]
+    );
     res.json({ message: "Catatan berhasil disimpan." });
   } catch (err) {
     res.status(500).json({ error: "Gagal menyimpan catatan." });

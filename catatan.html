@@ -51,6 +51,11 @@
       <h3 style="color: white; font-size: 18px; margin-bottom: 20px;">Tambah Catatan Baru</h3>
       <input type="text" id="note-title" class="admin-input" placeholder="Judul Catatan (misal: Jawaban Tugas Matematika)" style="margin-bottom: 10px;">
       <textarea id="note-content" class="admin-input" rows="5" placeholder="Tulis isi catatan Anda di sini..." style="margin-bottom: 10px;"></textarea>
+      <label style="display: flex; align-items: center; gap: 8px; color: #c8d4eb; font-size: 13px; margin-bottom: 15px; cursor: pointer;">
+        <input type="checkbox" id="note-is-public" style="width: 18px; height: 18px; accent-color: #80b5ff;">
+       Catatan Publik
+      </label>
+      <button onclick="window.saveNote()" class="admin-btn-save" style="margin: 0;">Simpan Catatan</button>
       <button onclick="window.saveNote()" class="admin-btn-save" style="margin: 0;">Simpan Catatan</button>
 
       <h3 style="color: white; font-size: 18px; margin: 30px 0 20px 0; border-top: 1px solid #2c3b57; padding-top: 25px;">Daftar Catatan</h3>
