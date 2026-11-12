@@ -29,57 +29,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
       data.notes.forEach(note => {
         const div = document.createElement("div");
-        div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; overflow: hidden;";
+        div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; padding: 15px;";
 
         const header = document.createElement("div");
-        header.style.cssText = "padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; transition: background 0.2s;";
-        header.onmouseover = () => header.style.background = "rgba(255,255,255,0.03)";
-        header.onmouseout = () => header.style.background = "transparent";
+        header.style.cssText = "display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none;";
+        
+        const isPub = note.is_public == 1;
         
         header.innerHTML = `
           <div style="flex: 1; padding-right: 10px;">
             <h4 style="color: #ffe36a; margin: 0; font-size: 15px; word-break: break-word;">${note.title}</h4>
-            <span style="font-size: 10px; color: ${note.is_public ? '#34d399' : '#8292af'};">
-              ${note.is_public ? '🌍 Publik' : '🔒 Pribadi'}
+            <span style="display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 700; color: ${isPub ? '#34d399' : '#8292af'};">
+              ${isPub ? '🌍 Publik' : '🔒 Pribadi'}
             </span>
           </div>
           <span class="note-toggle-icon" style="color: #8292af; font-size: 20px; line-height: 1;">+</span>
         `;
 
         const body = document.createElement("div");
-        body.style.cssText = "max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: rgba(8, 13, 24, 0.4);";
-        
-        const bodyContent = document.createElement("div");
-        bodyContent.style.cssText = "padding: 0 15px 15px 15px;";
-        bodyContent.innerHTML = `
-          <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-bottom: 15px; line-height: 1.6;">${note.content}</div>
-          <div style="display: flex; gap: 10px;">
-            <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+        body.style.cssText = "max-height: 0; overflow: hidden; transition: max-height 0.3s ease;";
+        body.innerHTML = `
+          <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-top: 15px; line-height: 1.6; border-top: 1px solid #2c3b57; padding-top: 15px;">${note.content}</div>
+          <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', ${note.is_public || 0})" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
             <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
           </div>
         `;
-        body.appendChild(bodyContent);
-        div.appendChild(header);
-        div.appendChild(body);
 
         header.addEventListener("click", () => {
           const icon = header.querySelector(".note-toggle-icon");
           if (body.style.maxHeight === "0px" || body.style.maxHeight === "") {
             body.style.maxHeight = body.scrollHeight + "px";
-            icon.style.transform = "rotate(180deg)";
+            icon.textContent = "−";
           } else {
             body.style.maxHeight = "0px";
-            icon.style.transform = "rotate(0deg)";
+            icon.textContent = "+";
           }
         });
 
+        div.appendChild(header);
+        div.appendChild(body);
         container.appendChild(div);
       });
     } catch (err) {
       console.error("Gagal memuat catatan:", err);
     }
   };
-
+  
   window.saveNote = async function() {
     const title = document.getElementById("note-title").value.trim();
     const content = document.getElementById("note-content").value.trim();
