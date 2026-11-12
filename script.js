@@ -8,6 +8,100 @@ document.addEventListener("DOMContentLoaded", () => {
   let allLoginLogs = [];
   let chatInterval = null;
   let currentChatUserId = null;
+  let currentEditingNoteId = null;
+
+  window.loadNotes = async function() {
+    const container = document.getElementById("notesListContainer");
+    if (!container) return;
+
+    try {
+      const token = localStorage.getItem("naell_token");
+      const res = await fetch(`https://naell.web.id/api/notes`, {
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      container.innerHTML = "";
+      if (!data.notes || data.notes.length === 0) {
+        container.innerHTML = '<p style="color: #8292af; text-align: center;">Belum ada catatan.</p>';
+        return;
+      }
+
+      data.notes.forEach(note => {
+        const div = document.createElement("div");
+        div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; padding: 15px;";
+        div.innerHTML = `
+          <h4 style="color: #ffe36a; margin-bottom: 8px; font-size: 16px;">${note.title}</h4>
+          <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-bottom: 15px;">${note.content}</div>
+          <div style="display: flex; gap: 10px;">
+            <button onclick="window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+            <button onclick="window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    } catch (err) {
+      console.error("Gagal memuat catatan:", err);
+    }
+  };
+
+  window.saveNote = async function() {
+    const title = document.getElementById("note-title").value.trim();
+    const content = document.getElementById("note-content").value.trim();
+    if (!title || !content) return window.showToast("Judul dan isi wajib diisi!");
+
+    const token = localStorage.getItem("naell_token");
+    const url = currentEditingNoteId 
+      ? `https://naell.web.id/api/notes/${currentEditingNoteId}` 
+      : `https://naell.web.id/api/notes`;
+    const method = currentEditingNoteId ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method: method,
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+        body: JSON.stringify({ title, content })
+      });
+
+      if (res.ok) {
+        window.showToast(currentEditingNoteId ? "Catatan diperbarui!" : "Catatan disimpan!", "success");
+        document.getElementById("note-title").value = "";
+        document.getElementById("note-content").value = "";
+        currentEditingNoteId = null;
+        window.loadNotes();
+      } else {
+        const data = await res.json();
+        window.showToast(data.error, "error");
+      }
+    } catch (err) {
+      window.showToast("Terjadi kesalahan server.", "error");
+    }
+  };
+
+  window.editNote = function(id, title, content) {
+    currentEditingNoteId = id;
+    document.getElementById("note-title").value = title;
+    document.getElementById("note-content").value = content;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  window.deleteNote = async function(id) {
+    if (!confirm("Hapus catatan ini?")) return;
+
+    const token = localStorage.getItem("naell_token");
+    try {
+      const res = await fetch(`https://naell.web.id/api/notes/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        window.showToast("Catatan dihapus!", "success");
+        window.loadNotes();
+      }
+    } catch (err) {
+      window.showToast("Terjadi kesalahan server.", "error");
+    }
+  };
 
   window.showDepositForm = function() {
     const form = document.getElementById("depositFormSection");
@@ -757,6 +851,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (typeof window.loadProductStockInfo === 'function') setTimeout(window.loadProductStockInfo, 500);
       if (typeof window.loadChatMessages === 'function') setTimeout(window.loadChatMessages, 1000);
     }
+    if (tabName === 'notes' && typeof window.loadNotes === 'function') window.loadNotes();
 
     if (window.innerWidth <= 768) {
       window.toggleSidebar();

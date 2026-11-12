@@ -145,6 +145,17 @@ db.serialize(() => {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS notes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 });
 
 console.log("✅ Database siap: database.db");
@@ -975,6 +986,51 @@ app.get("/api/admin/product-accounts/:productId", verifyToken, async (req, res) 
     res.json({ available, total_sold: sold.count });
   } catch (err) {
     res.status(500).json({ error: "Gagal mengambil data stok." });
+  }
+});
+
+app.get("/api/notes", verifyToken, async (req, res) => {
+  try {
+    const notes = await dbAll("SELECT * FROM notes WHERE user_id = ? ORDER BY created_at DESC", [req.user.id]);
+    res.json({ notes });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal mengambil catatan." });
+  }
+});
+
+app.post("/api/notes", verifyToken, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    if (!title || !content) return res.status(400).json({ error: "Judul dan isi wajib diisi." });
+
+    await dbRun("INSERT INTO notes (user_id, title, content) VALUES (?, ?, ?)", [req.user.id, title, content]);
+    res.json({ message: "Catatan berhasil disimpan." });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal menyimpan catatan." });
+  }
+});
+
+app.put("/api/notes/:id", verifyToken, async (req, res) => {
+  try {
+    const { title, content } = req.body;
+    if (!title || !content) return res.status(400).json({ error: "Judul dan isi wajib diisi." });
+
+    await dbRun(
+      "UPDATE notes SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?",
+      [title, content, req.params.id, req.user.id]
+    );
+    res.json({ message: "Catatan berhasil diperbarui." });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal memperbarui catatan." });
+  }
+});
+
+app.delete("/api/notes/:id", verifyToken, async (req, res) => {
+  try {
+    await dbRun("DELETE FROM notes WHERE id = ? AND user_id = ?", [req.params.id, req.user.id]);
+    res.json({ message: "Catatan berhasil dihapus." });
+  } catch (err) {
+    res.status(500).json({ error: "Gagal menghapus catatan." });
   }
 });
 
