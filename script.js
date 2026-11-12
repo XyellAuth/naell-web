@@ -29,22 +29,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
       data.notes.forEach(note => {
         const div = document.createElement("div");
-        div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; padding: 15px;";
-        div.innerHTML = `
-          <h4 style="color: #ffe36a; margin-bottom: 8px; font-size: 16px;">${note.title}</h4>
-          <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-bottom: 15px;">${note.content}</div>
+        div.style.cssText = "background: #0f1a2c; border: 1px solid #2c3b57; border-radius: 10px; overflow: hidden;";
+
+        const header = document.createElement("div");
+        header.style.cssText = "padding: 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; transition: background 0.2s;";
+        header.onmouseover = () => header.style.background = "rgba(255,255,255,0.03)";
+        header.onmouseout = () => header.style.background = "transparent";
+        
+        header.innerHTML = `
+          <h4 style="color: #ffe36a; margin: 0; font-size: 15px; flex: 1; padding-right: 10px; word-break: break-word;">${note.title}</h4>
+          <svg class="note-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8292af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease; flex-shrink: 0;">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        `;
+
+        const body = document.createElement("div");
+        body.style.cssText = "max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: rgba(8, 13, 24, 0.4);";
+        
+        const bodyContent = document.createElement("div");
+        bodyContent.style.cssText = "padding: 0 15px 15px 15px;";
+        bodyContent.innerHTML = `
+          <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-bottom: 15px; line-height: 1.6;">${note.content}</div>
           <div style="display: flex; gap: 10px;">
-            <button onclick="window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
-            <button onclick="window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
+            <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+            <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
           </div>
         `;
+        body.appendChild(bodyContent);
+        div.appendChild(header);
+        div.appendChild(body);
+
+        header.addEventListener("click", () => {
+          const icon = header.querySelector(".note-toggle-icon");
+          if (body.style.maxHeight === "0px" || body.style.maxHeight === "") {
+            body.style.maxHeight = body.scrollHeight + "px";
+            icon.style.transform = "rotate(180deg)";
+          } else {
+            body.style.maxHeight = "0px";
+            icon.style.transform = "rotate(0deg)";
+          }
+        });
+
         container.appendChild(div);
       });
     } catch (err) {
       console.error("Gagal memuat catatan:", err);
     }
   };
-
+  
   window.saveNote = async function() {
     const title = document.getElementById("note-title").value.trim();
     const content = document.getElementById("note-content").value.trim();
