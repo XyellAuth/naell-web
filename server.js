@@ -999,12 +999,12 @@ app.post("/api/notes", verifyToken, async (req, res) => {
 
 app.put("/api/notes/:id", verifyToken, async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, is_public } = req.body;
     if (!title || !content) return res.status(400).json({ error: "Judul dan isi wajib diisi." });
 
     await dbRun(
-      "UPDATE notes SET title = ?, content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?",
-      [title, content, req.params.id, req.user.id]
+      "UPDATE notes SET title = ?, content = ?, is_public = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?",
+      [title, content, is_public ? 1 : 0, req.params.id, req.user.id]
     );
     res.json({ message: "Catatan berhasil diperbarui." });
   } catch (err) {

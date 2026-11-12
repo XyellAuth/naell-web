@@ -113,13 +113,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  window.editNote = function(id, title, content) {
-    currentEditingNoteId = id;
+  window.editNote = function(id, title, content, isPublic) {
     document.getElementById("note-title").value = title;
     document.getElementById("note-content").value = content;
+    document.getElementById("note-is-public").checked = isPublic === 1 || isPublic === true;
+    document.getElementById("note-title").focus();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
+  
   window.deleteNote = async function(id) {
     if (!confirm("Hapus catatan ini?")) return;
 
@@ -1973,7 +1974,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div style="color: #c8d4eb; font-size: 13px; white-space: pre-wrap; margin-top: 15px; line-height: 1.6; border-top: 1px solid #2c3b57; padding-top: 15px;">${note.content}</div>
             ${note.user_id === JSON.parse(localStorage.getItem("naell_user")).id 
               ? `<div style="display: flex; gap: 10px; margin-top: 15px;">
-                  <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}')" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
+                  <button onclick="event.stopPropagation(); window.editNote(${note.id}, '${note.title.replace(/'/g, "\\'")}', '${note.content.replace(/'/g, "\\'").replace(/\n/g, "\\n")}', ${note.is_public || 0})" style="background: rgba(96, 148, 255, 0.15); color: #80b5ff; border: 1px solid rgba(96, 148, 255, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Edit</button>
                   <button onclick="event.stopPropagation(); window.deleteNote(${note.id})" style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700;">Hapus</button>
                 </div>` 
               : ''
