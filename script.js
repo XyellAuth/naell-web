@@ -2083,7 +2083,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const protectedPages = ["order.html", "riwayat.html", "deposit.html", "riwayat-deposit.html", "catatan.html", "profile.html", "riwayat-log.html"];
+  const protectedPages = ["order.html", "riwayat.html", "deposit.html", "riwayat-deposit.html", "catatan.html", "riwayat-log.html"];
   const currentPath = window.location.pathname;
   const isProtectedPage = protectedPages.some(page => currentPath.includes(page));
 
