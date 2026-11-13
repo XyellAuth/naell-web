@@ -2105,4 +2105,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  if (window.location.search.includes("login=true")) {
+    setTimeout(() => {
+      if (typeof window.openAuthModal === "function") window.openAuthModal();
+    }, 500);
+  }
+
 });
