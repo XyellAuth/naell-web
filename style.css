@@ -3689,11 +3689,14 @@ body .container {
 }
 
 #lockedContent {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  background: #080d18 !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  min-height: calc(100vh - 100px) !important;
   padding: 20px !important;
-  width: 100% !important;
   box-sizing: border-box !important;
+  min-height: 100vh !important;
 }
