@@ -2049,21 +2049,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.loadNotes();
   }
 
-  if (window.location.pathname.includes("catatan.html")) {
-    const token = localStorage.getItem("naell_token");
-    const mainContent = document.getElementById("mainContent");
-    const lockedContent = document.getElementById("lockedContent");
-
-    if (token) {
-      mainContent.classList.remove("hide-catalog");
-      lockedContent.style.display = "none";
-      window.loadNotes();
-    } else {
-      mainContent.classList.add("hide-catalog");
-      lockedContent.style.display = "flex";
-    }
-  }
-
   if (isAdminPage) {
     setTimeout(() => {
       if (typeof window.loadChatMessages === "function") window.loadChatMessages();

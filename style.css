@@ -3693,10 +3693,14 @@ body .container {
   inset: 0 !important;
   z-index: 9999 !important;
   background: #080d18 !important;
-  display: flex !important;
+  display: none;
   justify-content: center !important;
   align-items: center !important;
   padding: 20px !important;
   box-sizing: border-box !important;
   min-height: 100vh !important;
+}
+
+#lockedContent.show {
+  display: flex;
 }
