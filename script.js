@@ -2083,4 +2083,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  const protectedPages = ["order.html", "riwayat.html", "deposit.html", "riwayat-deposit.html", "catatan.html", "profile.html", "riwayat-log.html"];
+  const currentPath = window.location.pathname;
+  const isProtectedPage = protectedPages.some(page => currentPath.includes(page));
+
+  if (isProtectedPage) {
+    const token = localStorage.getItem("naell_token");
+    const mainContent = document.getElementById("mainContent");
+    const lockedContent = document.getElementById("lockedContent");
+
+    if (token) {
+      if (mainContent) mainContent.classList.remove("hide-catalog");
+      if (lockedContent) lockedContent.style.display = "none";
+      
+      if (currentPath.includes("catatan.html") && typeof window.loadNotes === "function") {
+        window.loadNotes();
+      }
+    } else {
+      if (mainContent) mainContent.classList.add("hide-catalog");
+      if (lockedContent) lockedContent.style.display = "flex";
+    }
+  }
+
 });
